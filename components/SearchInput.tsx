@@ -23,7 +23,7 @@ export function SearchInput() {
       params.delete('q');
     }
     router.push(`${pathname}?${params.toString()}`);
-  }, [debouncedSearchQuery]); 
+  }, [debouncedSearchQuery, initialSearchQuery, pathname, router, searchParams]); 
 
   return (
     <Input

@@ -1,4 +1,3 @@
-// components/PaginationControls.tsx
 import {
   Pagination,
   PaginationContent,
@@ -8,10 +7,7 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from '@/components/ui/pagination';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 interface PaginationControlsProps {
   totalItems: number;
@@ -20,7 +16,6 @@ interface PaginationControlsProps {
 
 export function PaginationControls({ totalItems, itemsPerPage }: PaginationControlsProps) {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   const currentPage = parseInt(searchParams.get('page') || '1');
@@ -41,7 +36,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
       for (let i = 1; i <= totalPages; i++) {
         items.push(
           <PaginationItem key={i}>
-            <PaginationLink href={createPageURL(i)} isActive={i === currentPage}>
+            <PaginationLink href={createPageURL(i)} isActive={i === currentPage} size={undefined}>
               {i}
             </PaginationLink>
           </PaginationItem>
@@ -49,7 +44,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
       }
     } else {
       let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
       if (endPage - startPage + 1 < maxVisiblePages) {
         startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -58,7 +53,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
       if (startPage > 1) {
         items.push(
           <PaginationItem key={1}>
-            <PaginationLink href={createPageURL(1)}>1</PaginationLink>
+            <PaginationLink href={createPageURL(1)} size={undefined}>1</PaginationLink>
           </PaginationItem>
         );
         if (startPage > 2) {
@@ -69,7 +64,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
       for (let i = startPage; i <= endPage; i++) {
         items.push(
           <PaginationItem key={i}>
-            <PaginationLink href={createPageURL(i)} isActive={i === currentPage}>
+            <PaginationLink href={createPageURL(i)} isActive={i === currentPage} size={undefined}>
               {i}
             </PaginationLink>
           </PaginationItem>
@@ -82,7 +77,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
         }
         items.push(
           <PaginationItem key={totalPages}>
-            <PaginationLink href={createPageURL(totalPages)}>{totalPages}</PaginationLink>
+            <PaginationLink href={createPageURL(totalPages)} size={undefined}>{totalPages}</PaginationLink>
           </PaginationItem>
         );
       }
@@ -98,11 +93,11 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href={currentPage > 1 ? createPageURL(currentPage - 1) : '#'} />
+              <PaginationPrevious href={currentPage > 1 ? createPageURL(currentPage - 1) : '#'} size={undefined} />
             </PaginationItem>
             {getPaginationItems()}
             <PaginationItem>
-              <PaginationNext href={currentPage < totalPages ? createPageURL(currentPage + 1) : '#'} />
+              <PaginationNext href={currentPage < totalPages ? createPageURL(currentPage + 1) : '#'} size={undefined} />
             </PaginationItem>
           </PaginationContent>
         </Pagination>

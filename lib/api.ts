@@ -1,4 +1,4 @@
-import type { Post, User,PaginatedPostsResponse,PaginatedUsersResponse,PostsResponse, UsersResponse } from "./types"
+import type { Post, User,PaginatedPostsResponse,PaginatedUsersResponse } from "./types"
 
 
 const BASE_URL = "https://dummyjson.com"

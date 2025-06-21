@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+/* eslint-disable react/jsx-no-comment-textnodes */
 import { UserAvatar } from './UserAvatar';
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -49,7 +49,7 @@ export function PostCard({ post, handleLike: propHandleLike }: PostCardProps) {
       </div>
       <Button
         variant="outline"
-        size="xs"
+        size="sm"
         onClick={() => {
           if (propHandleLike) {
             propHandleLike();

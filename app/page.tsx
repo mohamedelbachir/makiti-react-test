@@ -1,25 +1,15 @@
 "use client"
-import { Suspense } from 'react';
 import { fetchPosts } from '@/lib/api';
 import { PostCard } from '@/components/PostCard';
 import { PaginationControls } from '@/components/PaginationControls';
 import { SearchInput } from '@/components/SearchInput';
 import { useSearchParams } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {Button} from "@/components/ui/button"
 import {Separator} from "@/components/ui/separator"
-import {Star,Heart} from "lucide-react"
+import {Star} from "lucide-react"
 import Link from "next/link"
 import PostCardSkeleton from "@/components/PostCardSkeleton"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import useSWR from 'swr';
 
 

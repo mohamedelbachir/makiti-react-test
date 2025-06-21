@@ -3,13 +3,10 @@
 import { useState, useEffect } from "react"
 import { Heart, Book, ArrowRight, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import type { Post } from "@/lib/api"
-import { fetchPost, fetchUser } from "@/lib/api"
+import type { Post } from "@/lib/types"
+import { fetchPost } from "@/lib/api"
 import { getLikedPosts, toggleLike } from "@/lib/localStorage"
 import PostCardSkeleton from "@/components/PostCardSkeleton"
 import { PostCard } from '@/components/PostCard';
@@ -72,7 +69,7 @@ export default function FavoritesPage() {
                   Your Favorites
                 </h1>
                 <p className="text-gray-600 mt-1 text-xs">
-                  {likedPosts.length} post{likedPosts.length !== 1 ? "s" : ""} you've liked
+                  {likedPosts.length} post{likedPosts.length !== 1 ? "s" : ""} you&apos;ve liked
                 </p>
               </div>
             </div>

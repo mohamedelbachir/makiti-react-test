@@ -33,14 +33,14 @@ export interface User {
   }
 }
 
-interface PaginatedPostsResponse {
+export interface PaginatedPostsResponse {
   posts: Post[];
   total: number;
   skip: number;
   limit: number;
 }
 
-interface PaginatedUsersResponse {
+export interface PaginatedUsersResponse {
   users: User[];
   total: number;
   skip: number;
