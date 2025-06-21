@@ -1,103 +1,115 @@
-import Image from "next/image";
+"use client"
+import { Suspense } from 'react';
+import { fetchPosts } from '@/lib/api';
+import { PostCard } from '@/components/PostCard';
+import { PaginationControls } from '@/components/PaginationControls';
+import { SearchInput } from '@/components/SearchInput';
+import { useSearchParams } from 'next/navigation';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {Button} from "@/components/ui/button"
+import {Separator} from "@/components/ui/separator"
+import {Star,Heart} from "lucide-react"
+import Link from "next/link"
+import PostCardSkeleton from "@/components/PostCardSkeleton"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import useSWR from 'swr';
 
-export default function Home() {
+
+const POSTS_PER_PAGE = 8;
+
+
+const Page = () => {
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1');
+  const searchQuery = searchParams.get('q') || '';
+
+  const skip = (currentPage - 1) * POSTS_PER_PAGE;
+
+  const { data, error } = useSWR(
+    [`/posts`, POSTS_PER_PAGE, skip, searchQuery],
+    () => fetchPosts(POSTS_PER_PAGE, skip, searchQuery)
+  );
+
+  const posts = data?.posts || [];
+  const totalPosts = data?.total || 0;
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <section>
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="mb-8 md:mb-14 lg:mb-16">
+          <Badge variant="secondary" className="mt-6">
+            Latest update
+          </Badge>
+          <div className="flex mt-3 items-center justify-between">
+            <h1 className="mb-4 w-full text-4xl font-medium md:mb-5 md:text-5xl lg:mb-6 lg:text-5xl">
+               Blog
+            </h1>
+            <div className="max-md:hidden md:w-2/3 w-1/2 flex gap-2 items-center">
+              <SearchInput />
+              <Button asChild>
+                <Link className="flex items-center" href="/favorites">
+                  <Star className="mr-2 h-4 w-4" />
+                  Favorites
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <p>Discover the latest trends, tips, and best practices in modern web development.</p>
+          <div className="hidden max-md:flex flex-col w-full gap-3 mt-3 items-center">
+              <SearchInput />
+              <Button className="w-full" asChild>
+                <Link href="/favorites">
+                  <Star className="mr-2 h-4 w-4" />
+                  Favorites
+                </Link>
+              </Button>
+          </div>
+          <Separator className="mt-5"/>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {error&&<div className="text-center text-red-500 py-8">Failed to load posts. Please try again later.</div>}
+        {!error&&data ? (
+          <>
+            {posts.length === 0 && (
+              <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+                No posts found for your search query.
+              </div>
+            )}
+            <div className="grid gap-x-4 gap-y-8 md:grid-cols-3 lg:gap-x-6 lg:gap-y-12 lg:grid-cols-4">
+              {posts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <PaginationControls totalItems={totalPosts} itemsPerPage={POSTS_PER_PAGE} />
+            </div>
+          </>
+        ) : (
+          <>{!error&&<LoadingState />}</>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default Page
+
+function LoadingState() {
+  return (
+    <div className="container mx-auto p-4">
+      <div className="grid gap-x-4 gap-y-8 md:grid-cols-3 lg:gap-x-6 lg:gap-y-12 lg:grid-cols-4">
+        {Array.from({ length: POSTS_PER_PAGE }).map((_, i) => (
+          <PostCardSkeleton key={i}/>
+        ))}
+      </div>
     </div>
   );
 }
