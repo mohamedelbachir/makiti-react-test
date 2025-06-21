@@ -30,7 +30,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
 
   const getPaginationItems = () => {
     const items = [];
-    const maxVisiblePages = 1; 
+    const maxVisiblePages = 3; 
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
