@@ -94,7 +94,7 @@ export default Page
 
 function LoadingState() {
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto">
       <div className="grid gap-x-4 gap-y-8 md:grid-cols-3 lg:gap-x-6 lg:gap-y-12 lg:grid-cols-4">
         {Array.from({ length: POSTS_PER_PAGE }).map((_, i) => (
           <PostCardSkeleton key={i}/>

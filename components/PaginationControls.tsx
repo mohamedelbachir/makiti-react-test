@@ -30,7 +30,7 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
 
   const getPaginationItems = () => {
     const items = [];
-    const maxVisiblePages = 3; 
+    const maxVisiblePages = 2; 
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
@@ -92,11 +92,11 @@ export function PaginationControls({ totalItems, itemsPerPage }: PaginationContr
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
         <Pagination>
           <PaginationContent>
-            <PaginationItem>
+            <PaginationItem className='mr-3'>
               <PaginationPrevious href={currentPage > 1 ? createPageURL(currentPage - 1) : '#'} size={undefined} />
             </PaginationItem>
             {getPaginationItems()}
-            <PaginationItem>
+            <PaginationItem className='ml-3'>
               <PaginationNext href={currentPage < totalPages ? createPageURL(currentPage + 1) : '#'} size={undefined} />
             </PaginationItem>
           </PaginationContent>
